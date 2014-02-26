@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="week-0226-entropy-relative-entrpoy-mutual-information物理量">week 02/26 Entropy, Relative Entrpoy, Mutual Information物理量</h1>
+<h2 id="entropy">Entropy</h2>
+<p>我有一個 random variable，他們的 entropy 是</p>
+<p>\[ H(x) := -\sum_x P(x)\log P(x) \]</p>
+<p>為什麼加入 P = 0 的 random variable(??聽不懂)？有些編碼的技巧能用到</p>
+<h2 id="joint-entropy-and-conditional-entropy">Joint Entropy and Conditional Entropy</h2>
+<ul>
+<li><p>為啥要學 joint？因為我們都是個系統，至少兩個，例如 receiver 跟 sender，我們都看他們，所以joint</p></li>
+<li><p>conditional probability: 除了描述input，還可以加上條件「他這樣的output是啥」。描述完了input描述完output整個系統就講完了</p></li>
+<li><p>數學上有負的 entropy 嗎？有，連續的case。</p>
+<p>但information theory上基本上都是正的，他是給你information；負的不好理解</p></li>
+<li><p>我們有興趣的：第一個是看它是convex還是concave，所以找及極小/極大</p></li>
+<li><p>本例：無論是 P=0 或 P=1 機率都是 0（給我no information）。</p>
+<p>equal probable 的時候 entropy 最大</p></li>
+<li><p>defn of <span class="math">\(H(X,Y)\)</span> and <span class="math">\(H(Y|X)\)</span></p>
+<p>\[ H(X,Y)=\sum_{x,y} -P(x,y)\log P(x,y) \]</p>
+<p>\[\begin{aligned} H(Y|X) &amp;=^\text{def} \sum_x P(x)H(Y|X=x) \\ &amp;= -\sum_x P(x) \sum_y P(y|x)\log P(y|x) \\ &amp;= -\sum_{x,y} P(x,y)\log P(y|x) \\ &amp;= -E_{P(x,y)}\log P(Y|X) \end{aligned}\]</p></li>
+<li><p>chain rule: <span class="math">\(H(X,Y)=H(X)+H(Y|X)\)</span></p>
+<p>joint entropy 是 margin entropy 加上 conditional entropy</p></li>
+<li><p>COR: <span class="math">\(H(X,Y|Z)=H(X|Z)+H(Y|X,Z)\)</span></p></li>
+<li><p>Rem: <span class="math">\(H(Y|X)\neq H(X|Y)\)</span>：input、output有順序關係</p>
+<p>不像某些系統有duality</p>
+<p><span class="math">\(H(X)-H(X|Y)=H(Y)-H(Y|X)\)</span>：<span class="math">\(H(X|Y) \Rightarrow\)</span> 知道了某些output後我對input知道的更多事情，這是透過<strong>通訊</strong>產生的。知道了多少？就是 <span class="math">\(H(X)-H(X|Y)\)</span>。所以跟 <span class="math">\(H(Y)-H(Y|X)\)</span> 一樣，也是同一個通訊（<span class="math">\(X\)</span>：input，<span class="math">\(Y\)</span>：output）</p></li>
+</ul>
+<h2 id="relative-entropy">Relative entropy</h2>
+<ul>
+<li>K-L距離：<span class="math">\(\displaystyle D(p || q) = \sum_x p(x) \log \dfrac{p(x)}{q(x)}\)</span> <span class="math">\(p\)</span>對<span class="math">\(q\)</span>的距離：實際上是用 <span class="math">\(p\)</span>（<span class="math">\(\log 1/p\)</span>：bits）這麼多，但我卻估計了用 <span class="math">\(q\)</span> -- 一定有損耗（<span class="math">\(\geq 0\)</span>）</li>
+</ul>
+<h2 id="mutual-information所以牽涉到communication">Mutual Information（所以牽涉到communication）</h2>
+<ul>
+<li><p><span class="math">\(\displaystyle I(X;Y)=\sum_{x,y} p(x,y)\log \dfrac{p(x,y)}{p(x)p(y)}=D(p(x,y)||p(x)p(y))\)</span></p></li>
+<li><p>探討這個channel有作用/沒作用造成的joint probability的差異</p></li>
+<li><p><span class="math">\(X\)</span>是channel的input，<span class="math">\(Y\)</span>是output，那他們應該有某種關係 -- 就是 <span class="math">\(p(x,y)\)</span></p></li>
+<li><p>這邊在丈量 <span class="math">\(p(x,y)\)</span> 跟 <span class="math">\(p(x)p(y)\)</span> 的差距。若channel斷線，那兩者independent，就0了</p></li>
+<li><p>Magic happened: <span class="math">\(I(X;Y) = \cdots = H(X) - H(X|Y)\)</span></p></li>
+<li><p>所以 <span class="math">\(I(X;Y)\)</span> 是 <span class="math">\(Y\)</span> 的知識造成的 <span class="math">\(X\)</span> 的不確定性減少的量</p></li>
+<li><p><span class="math">\(H(X)-H(X|Y)=H(Y)-H(Y|X)\)</span>: <span class="math">\(X\)</span>說的關於<span class="math">\(Y\)</span>的跟<span class="math">\(Y\)</span>說的關於<span class="math">\(X\)</span>的一樣</p></li>
+<li><p>also:</p>
+<p>\[\begin{aligned} &amp;H(X,Y)=H(X)+H(Y|X), I(X;Y)=H(Y)-H(Y|X) \\ &amp;\Rightarrow I(X;Y)=H(X)+H(Y)-H(X,Y), I(X;X)=H(X) \end{aligned}\]</p>
+<p>所以才說 <span class="math">\(H\)</span> 是 self information</p></li>
+</ul>
+<h2 id="chain-rules">Chain rules</h2>
+<ul>
+<li><p><span class="math">\(\displaystyle H(X_1, \dots, X_n) = \sum_i H(X_i|X_{i-1},\dots,X_1)\)</span></p>
+<p><span class="math">\((...|X_{n-1},\dots,X_1)\)</span>: 牽涉到model, 看他們之間的關係怎樣</p></li>
+<li><p><span class="math">\(I(X;Y|Z)=H(X|Z)-(X|Y,Z)\)</span></p>
+<p><span class="math">\(\displaystyle I(X_1,\dots,X_N;Y)=\sum_i I(X_i;Y|X_{i-i1},\dots,X_1)\)</span></p></li>
+<li><p><span class="math">\(D(p(x,y)||q(x,y))=D(p(x)||q(x))+D(p(y|x)||q(y|x))\)</span></p></li>
+</ul>
+<h2 id="convexconcave-jensens-inequality嗚嗚高微惡夢">Convex&amp;Concave: Jensen's Inequality（嗚嗚高微惡夢）</h2>
+<h2 id="information-inequality不等式轟炸">Information inequality，不等式轟炸</h2>
+<ul>
+<li><p><span class="math">\(I(X;Y)\geq 0\)</span>. 等號成立：<span class="math">\(p,q\)</span>獨立</p></li>
+<li><p><span class="math">\(H(X)\leq\log |X|\)</span></p></li>
+<li><p><span class="math">\(H(X|Y)\leq H(X) \leq H(X,Y)\)</span></p>
+<p>exercise: do the exercise at page 29</p></li>
+<li><p><span class="math">\(\displaystyle H(X_1,X_2,\dots,X_n)\leq \sum_i H(X_i)\)</span>. 等號成立：all independent</p></li>
+<li><p>(Log sum inequality) <span class="math">\(\displaystyle \sum_i a_i\log \dfrac{a_i}{b_i} \geq \left(\sum_i a_i\right)\log\dfrac{\sum_i a_i}{\sum_i b_i}\)</span></p>
+<p>this provides another proof for <span class="math">\(D(-||-)\geq 0\)</span></p></li>
+<li><p><span class="math">\(\displaystyle D\left(\vphantom{\int}(\lambda p_1+(1-\lambda)p-2)\right|\left|\vphantom{\int}(\lambda q_1+(1-\lambda)q_2)\right) \leq \lambda D(p_1||q_1)+(1-\lambda)D(p_2||q_2)\)</span></p></li>
+<li><p>(concavity of entropy) <span class="math">\(H(\lambda p_1+(1-\lambda)p_2) \geq \lambda H(p_1)+(1-\lambda)H(p_2)\)</span></p></li>
+<li><p><span class="math">\(I(X;Y)\)</span> is:</p>
+<ul>
+<li><p>a concave function of <span class="math">\(p(x)\)</span> for fixed <span class="math">\(p(y|x)\)</span></p></li>
+<li><p>a convex function of <span class="math">\(p(y|x)\)</span> for fixed <span class="math">\(p(x)\)</span></p></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li><p>Fix <span class="math">\(p(y|x)\)</span> (output), change <span class="math">\(p(x)\)</span>: change input = change coding</p>
+<p>It's concave <span class="math">\(\Rightarrow\)</span> can get maximum, channel coding，因為有干擾。來源有一定能量的狀況下，傳盡量多的東西過去</p></li>
+<li><p>Fix <span class="math">\(p(x)\)</span>, change <span class="math">\(p(y|x)\)</span>: source coding, minimum: minimum representation</p></li>
+</ol></li>
+<li><p>下週繼續一堆不等式。一個不等式流傳千古。</p>
+<ul>
+<li>我如果不會有沒有關係？還沒關係，除了一個一定要會：(ry</li>
+</ul></li>
+</ul>
+</body>
+</html>

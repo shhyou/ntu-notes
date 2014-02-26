@@ -1,0 +1,78 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Serif);
+@import url(http://fonts.googleapis.com/css?family=Oxygen);
+@import url(http://fonts.googleapis.com/css?family=Josefin+Sans);
+@import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+body {
+  font-family: 'Oxygen';
+  /* save me: no chinese font QQ */
+  font-size: 14pt;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+h1, h2, h3 {
+  font-family: 'Oxygen';
+  font-weight: bold;
+  margin-bottom: 0;
+}
+h1 { font-size: 1.4em; line-height: 1.25em; }
+h2 { font-size: 1.25em; }
+h3 { font-size: 1.14em; }
+li p { line-height: 120%; }
+.red { color: #fa0000; }
+.green { color: #33ff33; }
+.large { font-size: 2em; }
+.small { font-size: 0.6em; }
+a, a > code {
+  color: rgb(249, 38, 114);
+  text-decoration: none;
+}
+code {
+  -moz-border-radius: 5px;
+  -web-border-radius: 5px;
+  background: #e7e8e2;
+  border-radius: 5px;
+  font-size: 0.8em;
+  padding: 3px;
+}
+pre > code {
+  font-size: 0.57em;
+}
+table {
+  line-height: 1.5em;
+  margin: 0.3em;
+}
+table thead { background: #eeeeee;}
+table tbody tr:nth-child(odd) { background: #ffffdd; }
+th, td {
+  padding: 3px 13px 3px 13px;
+  border: 1px solid #88aa88;
+  text-align: center;
+}
+table tr:first-child th:first-child {
+    -moz-border-radius-topleft:10px;
+    -webkit-border-top-left-radius:10px;
+    border-top-left-radius:10px
+}
+table tr:first-child th:last-child {
+    -moz-border-radius-topright:10px;
+    -webkit-border-top-right-radius:10px;
+    border-top-right-radius:10px
+}
+table tr:last-child td:first-child {
+    -moz-border-radius-bottomleft:10px;
+    -webkit-border-bottom-left-radius:10px;
+    border-bottom-left-radius:10px
+}
+table tr:last-child td:last-child {
+    -moz-border-radius-bottomright:10px;
+    -webkit-border-bottom-right-radius:10px;
+    border-bottom-right-radius:10px
+}
+.MathJax_Display {
+  font-size: 90% !important;
+}
+
+.MathJax {
+  font-size: 55% !important;
+}

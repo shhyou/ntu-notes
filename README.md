@@ -1,4 +1,0 @@
-ntu-notes
-=========
-
-NTU Notes
