@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="week-0305">week 03/05</h1>
+<ul>
+<li><p>他很 fundamental, 所只要任何東西是用 random process 之類來描述的, 基本上都可以 apply, 只是不同的地方解釋可能會不一樣</p>
+<ul>
+<li><p>之前我們都是講一個 communication system, 有 input, 有 output, 有 channel, 不過有的地方說一個系統有 memory, 有時候說是 memoryless 的, 他是什麼意思? 就是他不只是 t 的函數(????)</p></li>
+<li><p>回憶以前學過得 <span class="math">\(``\)</span>state space<span class="math">\(&quot;\)</span>, 為什麼以前要學 FSM? 我們做的東西在時間軸與量上都是離散的(連續的需要 quantization, 很麻煩) 如果我們的 communication 不只是 input output 之間的關係, 還有 state, 要怎麼來描述?</p></li>
+<li><p>我們這邊可以討論的範圍就慢慢擴展, 不只是 input output, 還可以把 state 帶進來, 甚至慢慢去探討他們之間的 dependency. 回憶 Markov: 他跟過去的 <span class="math">\(n\)</span> 個有關. Markov chain 跟 Markov process 差別在 Markov chain 跟前 <span class="math">\(n\)</span> 個是鍊結的關係, 是比較簡化的模型 (但很有用????)</p></li>
+</ul></li>
+<li><p>Data processing inequality</p>
+<ul>
+<li><p>「若隨機變數間有『上下游關係』, 那無論如何操作都無法增加他們的(某種)資訊量</p></li>
+<li><p>越接近的 random variable 的 mutual information 會越大.</p></li>
+<li><p><span class="math">\(\displaystyle X\to Y\to Z \Rightarrow I(X;Y)\geq I(X;Z)\)</span></p></li>
+<li><p>COR: If <span class="math">\(X\to Y\to Z\)</span> and <span class="math">\(Z=g(Y)\)</span>, then <span class="math">\(I(X;Y)\geq I(X;g(Y))\)</span> //<span class="math">\(g\)</span>代表某種操作嗎?</p></li>
+<li><p>在 Shannon 的 mutual information 的定義之下, 我們如何對 <span class="math">\(Y\)</span> 操作都無法增加 <span class="math">\(I(X;Y)\)</span> 原本有的互相資訊量</p></li>
+</ul></li>
+<li><p>Fano's inequality</p>
+<ul>
+<li><p><span class="math">\(H(X|Y)\)</span> 事實上 bound 住用 <span class="math">\(Y\)</span> 去猜 <span class="math">\(X\)</span> 的犯錯率(機率)</p></li>
+<li><p>Given <span class="math">\((X,Y)\)</span> with (conditional) distribution <span class="math">\((p(x), p(y|x))\)</span> respectively, 我們希望 bound 住 <span class="math">\(\hat{X}\neq X\)</span> where <span class="math">\(\hat{X}:=g(Y)\)</span> for some <span class="math">\(g\)</span></p></li>
+<li><p>Observation: <span class="math">\(X\to Y\to \hat{X}\)</span> 組成 Markov chain</p></li>
+<li><p>(Fano's inequality) <span class="math">\(\displaystyle H(P_e) + P_e\log(|X|-1)\geq H(X|Y)\)</span>, or <span class="math">\(\displaystyle P_e\geq \frac{H(X|Y)-1}{\log|X|}\)</span></p>
+<ul>
+<li><p>因為 <span class="math">\(P_e\)</span> 是 binary 的, 因此 <span class="math">\(H(P_e)\leq 1\)</span> (啥 <span class="math">\(p\log p+(1-p)\log (1-p)\)</span> 的)</p></li>
+<li><p><span class="math">\(\log(|X|-1)\leq\log|X|\)</span></p></li>
+</ul></li>
+<li><p>另一種用途: 我現在有個source with an unknown variable <span class="math">\(X\)</span>, Fano告訴我們猜錯的機率下界</p></li>
+</ul></li>
+<li><p>Relative Entropy的性質</p>
+<ul>
+<li><p>...某些跟 difference equation 有關的<code>QQ</code> 聽說很有用, 只不過我們平常解的是 deterministic 的</p></li>
+<li><p><span class="math">\(r(x_{n+1}|x_n)\)</span> 比較像是 state transition 的東西; Markov chain 的 state space.</p></li>
+<li><p><span class="math">\(\displaystyle D(p(x_n)\,||\,q(x_n))\geq D(p(x_{n+1})\,||\,q(x_{n+1}))\)</span></p></li>
+<li><p>&amp;Rightarrow; 對任何 Markov chain, p.m.f 之間的距離會隨時間遞減的</p></li>
+<li><p><strong>(YAY)</strong></p></li>
+<li><p>Stationary process: 對一個 random process 中的任兩組 random variable <span class="math">\(X_p\)</span>, <span class="math">\(X_q\)</span> 和 <span class="math">\(X_i\)</span>, <span class="math">\(X_j\)</span>, 只要 <span class="math">\(p-q=i-j\)</span>, 那 <span class="math">\((X_p,X_q)\)</span> 和 <span class="math">\((X_i,X_j)\)</span> 的統計特性就完全一樣(mean, variance, ...)</p></li>
+<li><p>所以 speech 訊號處理的 time frame 都很小, 因為變化太劇烈了</p></li>
+<li><p>Ergodic process: emsemble average = time average. 原本要做非常多次實驗然後取 emsemble average, 現在只要做一次實驗然後用一個區間內的東西平均@@? 還是要用每個period的平均?</p></li>
+</ul></li>
+<li><p>Sufficient statistics</p>
+<ul>
+<li>WAT?</li>
+</ul></li>
+<li><p>Convergence of random variables</p>
+<ul>
+<li><p>The sequence <span class="math">\(X_1\)</span>, <span class="math">\(X_2\)</span>, ... converges to r.v. <span class="math">\(X\)</span></p>
+<ol style="list-style-type: decimal">
+<li><p>In probability, if <span class="math">\(\forall \varepsilon &gt; 0\)</span>,</p>
+<p>\[ \text{Pr}(|X_n-X|&gt;\varepsilon) \to 0 \]</p></li>
+<li><p>In mean square, if</p>
+<p>\[\text{E}[(X_n-X)^2] \to 0\]</p></li>
+<li><p>With probability 1 (also called <span class="math">\(``\)</span>almost always <span class="math">\(&quot;\)</span>), if</p>
+<p>\[ \text{Pr}\left(\lim_{n\to\infty} X_n=\mu\right)=1 \]</p></li>
+</ol></li>
+</ul></li>
+<li><p>Law of Large Numbers</p>
+<ul>
+<li><p>Let <span class="math">\(\displaystyle \overline{X_n} := \frac{1}{m}(X_1+X_2+\dots+X_n)\)</span> and assume <span class="math">\(\displaystyle \text{E}(\overline{X_n}) \to \mu\)</span> when <span class="math">\(n\to\infty\)</span></p></li>
+<li><p>Weak law: converge in sense of (1.)</p></li>
+<li><p>Strong law: converge in sense of (3.)</p></li>
+</ul></li>
+</ul>
+</body>
+</html>
